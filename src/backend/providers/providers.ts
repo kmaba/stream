@@ -10,11 +10,24 @@ import {
   makeLoadBalancedSimpleProxyFetcher,
   setupM3U8Proxy,
 } from "@/backend/providers/fetchers";
+import { getProxyUrls } from "@/utils/proxyUrls";
+
+function validateProxySetup() {
+  const proxyUrls = getProxyUrls();
+  if (!proxyUrls.length) {
+    throw new Error(
+      "No proxy URLs configured. Please check your configuration.",
+    );
+  }
+}
 
 // Initialize M3U8 proxy on module load
 setupM3U8Proxy();
 
 export function getProviders() {
+  // Validate proxy setup
+  validateProxySetup();
+
   if (isExtensionActiveCached()) {
     return makeProviders({
       fetcher: makeStandardFetcher(fetch),
@@ -25,6 +38,7 @@ export function getProviders() {
   }
 
   setupM3U8Proxy();
+  validateProxySetup();
 
   return makeProviders({
     fetcher: makeStandardFetcher(fetch),

@@ -40,8 +40,15 @@ async function fetchButWithApiTokens(
   const apiToken = await getApiToken();
   const headers = new Headers(init?.headers);
   if (apiToken) headers.set("X-Token", apiToken);
+
+  // Ensure input URL is valid
+  let url = input;
+  if (typeof input === "string" && !input.startsWith("http")) {
+    url = `https://${input}`;
+  }
+
   const response = await fetch(
-    input,
+    url,
     init
       ? {
           ...init,
@@ -62,12 +69,14 @@ export function setupM3U8Proxy() {
 }
 
 export function makeLoadBalancedSimpleProxyFetcher() {
-  const fetcher: Fetcher = async (a, b) => {
+  const fetcher: Fetcher = async (url, init) => {
+    const proxyUrl = getLoadbalancedProxyUrl();
+    if (!proxyUrl) throw new Error("No proxy URL available");
     const currentFetcher = makeSimpleProxyFetcher(
-      getLoadbalancedProxyUrl(),
+      proxyUrl,
       fetchButWithApiTokens,
     );
-    return currentFetcher(a, b);
+    return currentFetcher(url, init);
   };
   return fetcher;
 }
