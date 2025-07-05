@@ -72,19 +72,15 @@ export function Footer() {
           </h3>
           <p className="mt-3">{t("footer.legal.disclaimerText")}</p>
         </div>
-        <div className="flex flex-wrap gap-[0.5rem] -ml-3">
-          <FooterLink icon={Icons.DISCORD} href={conf().DISCORD_LINK}>
-            {t("footer.links.discord")}
-          </FooterLink>
-          <FooterLink href="https://rentry.co/h5mypdfs" icon={Icons.TIP_JAR}>
-            {t("footer.links.funding")}
-          </FooterLink>
-          <div className="inline md:hidden">
+        <div className="flex flex-wrap justify-between w-full">
+          <div className="flex gap-[0.5rem] -ml-3">
+            <div className="inline md:hidden">
+              <Dmca />
+            </div>
+          </div>
+          <div className="hidden items-center justify-end md:flex -mr-3">
             <Dmca />
           </div>
-        </div>
-        <div className="hidden items-center justify-end md:flex -mr-3">
-          <Dmca />
         </div>
       </WideContainer>
     </footer>

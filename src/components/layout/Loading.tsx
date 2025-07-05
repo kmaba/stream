@@ -1,20 +1,45 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 export interface LoadingProps {
   text?: string;
   className?: string;
 }
 
 export function Loading(props: LoadingProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoLoad = useCallback(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.8; // Slow down playback slightly
+    }
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, []);
+
   return (
-    <div className={props.className}>
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex h-12 items-center justify-center">
-          <div className="mx-1 h-2 w-2 animate-loading-pin rounded-full bg-[#211D30]" />
-          <div className="mx-1 h-2 w-2 animate-loading-pin rounded-full bg-[#211D30] [animation-delay:150ms]" />
-          <div className="mx-1 h-2 w-2 animate-loading-pin rounded-full bg-[#211D30] [animation-delay:300ms]" />
-          <div className="mx-1 h-2 w-2 animate-loading-pin rounded-full bg-[#211D30] [animation-delay:450ms]" />
-        </div>
+    <div
+      className={`fixed inset-0 w-full h-full z-50 ${props.className ?? ""}`}
+    >
+      <div className="absolute inset-0 bg-dark-bg/95" />
+      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+        <video
+          ref={videoRef}
+          className="w-auto h-[80vh] max-h-[800px] object-contain"
+          autoPlay
+          muted
+          playsInline
+          onLoadedData={handleVideoLoad}
+        >
+          <source src="/loader.webm" type="video/webm" />
+        </video>
         {props.text && props.text.length ? (
-          <p className="mt-3 max-w-xs text-sm opacity-75">{props.text}</p>
+          <p className="absolute bottom-10 text-sm text-light-grey opacity-75">
+            {props.text}
+          </p>
         ) : null}
       </div>
     </div>

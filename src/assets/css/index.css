@@ -1,12 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --dark-bg: #121212;
+    --dark-green: #1e3a2b;
+    --accent-grey: #757575;
+    --light-grey: #bdbdbd;
+  }
+
+  body {
+    @apply bg-dark-bg text-light-grey font-sans;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-opacity-26 bg-glass border border-glass-border rounded-[24px];
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .loading-container {
+    @apply fixed top-0 left-0 w-full h-full flex items-center justify-center z-50;
+    background: rgba(18, 18, 18, 0.95);
+  }
+
+  .loading-video {
+    @apply absolute w-auto min-w-full min-h-full max-w-none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    object-fit: cover;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.glass-fade {
+  animation: fadeIn 0.3s ease-in;
+}
+
 html,
 body {
-  font-family: "Lato", sans-serif !important;
-  @apply bg-background-main font-main text-type-text;
   min-height: 100vh;
   min-height: 100dvh;
   font-size: 1.0248em;
@@ -30,6 +74,7 @@ body[data-no-scroll] {
 }
 
 body[data-no-select] {
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -210,7 +255,7 @@ input[type=range].styled-slider.slider-progress::-ms-fill-lower {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: theme("colors.video.context.border");
+  background-color: theme("colors.dark-green");
   border: 5px solid transparent;
   border-left: 0;
   background-clip: content-box;
@@ -226,8 +271,8 @@ input[type=range].styled-slider.slider-progress::-ms-fill-lower {
 }
 
 .tabbable:focus-visible {
-  outline: 2px solid theme('colors.themePreview.primary');
-  box-shadow: 0 0 10px theme('colors.themePreview.secondary');
+  outline: 2px solid theme('colors.glass');
+  box-shadow: 0 0 10px theme('colors.glass-border');
 }
 
 [dir="rtl"] .transform {

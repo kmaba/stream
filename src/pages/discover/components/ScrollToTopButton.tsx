@@ -27,20 +27,20 @@ export function ScrollToTopButton() {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+    <div className="fixed bottom-8 right-8 z-50">
       <div
-        className={`absolute inset-0 mx-auto h-[50px] w-[200px] rounded-full blur-[50px] opacity-50 pointer-events-none z-0 ${
+        className={`absolute inset-0 mx-auto h-[50px] w-[200px] rounded-full blur-[50px] opacity-75 pointer-events-none z-0 ${
           isVisible ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         style={{
-          backgroundImage: `linear-gradient(to right, rgba(var(--colors-buttons-purpleHover)), rgba(var(--colors-progress-filled)))`,
+          background: "rgba(93, 116, 109, 0.4)",
           transition: "opacity 0.4s ease-in-out, transform 0.4s ease-in-out",
         }}
       />
       <button
         type="button"
         onClick={scrollToTop}
-        className={`relative backdrop-blur-sm flex items-center justify-center space-x-2 rounded-full px-4 py-3 text-lg font-semibold text-white bg-pill-background bg-opacity-80 hover:bg-pill-backgroundHover transition-opacity hover:scale-105 duration-500 ease-in-out ${
+        className={`relative backdrop-blur-lg flex items-center justify-center space-x-2 rounded-full px-6 py-3 text-lg font-semibold text-white bg-glass hover:bg-glass/80 transition-all hover:scale-105 duration-300 ease-in-out ${
           isVisible ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         style={{
